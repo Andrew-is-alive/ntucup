@@ -406,6 +406,8 @@
     </div>
 
     <script>
+        // Load initial data from backup file
+        readFile();
 
         let currentDate = new Date();
 
@@ -571,8 +573,6 @@
 
         // Initialize calendar
         document.addEventListener('DOMContentLoaded', () => {
-            readFile();
-            setTimeout(() => {}, 1000);
             renderCalendar();
         });
 
