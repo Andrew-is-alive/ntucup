@@ -577,16 +577,20 @@
         });
 
         function readFile(){
-            fetch('LocalStorageBackup/ntu-cup-backup.json')
-                .then(response => response.json())
-                .then(data => {
-                for (const key in data) {
-                    localStorage.setItem(key, data[key]);
-                }
-            })
-            .catch(error => {
-                alert('Failed to import data: ' + error);
-            });
+            if (!localStorage.getItem('initialized')) {
+                localStorage.setItem('initialized', 'true');
+                fetch('LocalStorageBackup/ntu-cup-backup.json')
+                    .then(response => response.json())
+                    .then(data => {
+                    for (const key in data) {
+                        localStorage.setItem(key, data[key]);
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    alert('Failed to import data: ' + error);
+                });
+            }
         }
     </script>
 </body>
