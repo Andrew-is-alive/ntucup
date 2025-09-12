@@ -1,2 +1,2 @@
-# ntucup
-this is a public nut cup to update schedule and match results
+# NTUVBCUP
+This is a website to make announce ntucup schedule and match results
