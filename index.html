@@ -402,7 +402,8 @@
     </div>
 
     <script>
-        const keyword = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+        const now = new Date();
+        const keyword = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}-${String(now.getHours()).padStart(2,'0')}`; // YYYY-MM-DD-HH (local time)
         // Load initial data from backup file
         readFile();
 
