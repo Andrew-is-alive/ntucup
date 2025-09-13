@@ -131,7 +131,6 @@
                 <th>Available Days</th>
                 <th>Available Nights</th>
                 <th class="clickable-header" onclick="openBatchInputModal()">Team Name</th>
-                <th>Edit</th>
             </tr>
         </thead>
         <tbody id="team-table-body"></tbody>
@@ -175,7 +174,6 @@
                     <td contenteditable="true">${team.availableDays}</td>
                     <td contenteditable="true">${team.availableNights}</td>
                     <td contenteditable="true">${team.teamName || "N/A"}</td>
-                    <td><button class="edit-btn" onclick="saveChanges('${teamID}', this)">Save</button></td>
                 `;
                 tableBody.appendChild(row);
             });

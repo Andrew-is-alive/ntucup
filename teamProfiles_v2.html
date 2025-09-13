@@ -133,7 +133,6 @@
                 <th>Preliminary Score</th>
                 <th>Available Days</th>
                 <th class="clickable-header" onclick="openBatchInputModal()">Team Name</th>
-                <th>Edit</th>
                 <th>Matches</th>
             </tr>
         </thead>
@@ -190,7 +189,6 @@
                     <td>${team.preliminaryScore}</td>
                     <td contenteditable="true">${team.availableDays}</td>
                     <td contenteditable="true">${team.teamName || "N/A"}</td>
-                    <td><button class="edit-btn" onclick="saveChanges('${teamID}', this)">Save</button></td>
                     <td><button class="match-btn" onclick="showMatches('${teamID}')">Matches</button></td>
                 `;
                 tableBody.appendChild(row);
