@@ -11,6 +11,28 @@
             padding: 20px;
             background-color: #f4f4f9;
         }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            background: #f4f4f9;
+            padding: 16px 20px 8px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .sticky-header h2 {
+            margin: 0 0 8px 0;
+            font-size: 2em;
+            color: #2c3e50;
+        }
+        @media (max-width: 600px) {
+            .sticky-header {
+                padding: 10px 5px 5px 5px;
+            }
+            .sticky-header h2 {
+                font-size: 1.2em;
+            }
+        }
         .navigation {
             display: flex;
             gap: 15px;
@@ -54,7 +76,7 @@
                 font-size: 1.4em;
             }
             .nav-link i {
-                font-size: 1.2em;
+                font-size: 0.8em;
             }
             .nav-text {
                 display: none;
@@ -414,21 +436,23 @@
 <body>
     <script src = 'dataStorage.js'></script>
     <script src = 'Matchinfo.js'></script>
-    <h2>NTU Cup System</h2>
-    <div class = "navigation">
-        <a href="visual.html" class="nav-link">
-            <i class="fas fa-chart-bar"></i>
-            <span class="nav-text">Brackets</span>
-        </a>
-        <a href="teamProfiles_v2.html" class="nav-link">
-            <i class="fas fa-user-group"></i>
-            <span class="nav-text">NTUCup Teams</span>
-        </a>
-        <a href="teamProfiles_Newbie.html" class="nav-link">
-            <i class="fas fa-user-group"></i>
-            <span class="nav-text">Newbie Teams</span>
-        </a>
-    </div>
+    <header class="sticky-header"></header>
+        <h2>NTU Cup System</h2>
+        <div class="navigation">
+            <a href="visual.html" class="nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span class="nav-text">Brackets</span>
+            </a>
+            <a href="teamProfiles_v2.html" class="nav-link">
+                <i class="fas fa-user-group"></i>
+                <span class="nav-text">NTUCup Teams</span>
+            </a>
+            <a href="teamProfiles_Newbie.html" class="nav-link">
+                <i class="fas fa-user-group"></i>
+                <span class="nav-text">Newbie Teams</span>
+            </a>
+        </div>
+    </header>
     <!-- Popup structure -->
     <div class="popup-overlay hidden" id="popup-overlay"></div>
     <div class="popup hidden" id="popup">
