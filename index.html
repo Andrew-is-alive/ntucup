@@ -44,14 +44,16 @@
 
         @media (max-width: 600px) {
             .navigation {
-            flex-direction: row;
-            gap: 5px;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
             }
             .nav-link {
-            width: 30%;
-            justify-content: center;
-            padding: 16px 0;
-            font-size: 0.8em;
+                flex: 1 1 0;
+                text-align: center;
+                justify-content: center;
+                padding: 16px 0;
+                font-size: 1.2em;
             }
             .nav-link i {
             font-size: 0.2em;
@@ -346,9 +348,9 @@
             padding: 7px;
             }
             .calendar-day {
-            min-height: 70px;
+            min-height: 1fr;
             padding: 3px;
-            font-size: 0.1em;
+            font-size: 0.2fr;
             }
             .calendar-date {
             font-size: 0.9em;
@@ -412,7 +414,7 @@
 <body>
     <script src = 'dataStorage.js'></script>
     <script src = 'Matchinfo.js'></script>
-    <h1>Welcome to the NTU Cup System</h1>
+    <h1>NTU Cup System</h1>
     <div class = "navigation">
         <a href="visual.html" class="nav-link">
             <i class="fas fa-chart-bar"></i>
