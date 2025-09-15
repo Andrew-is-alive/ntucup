@@ -53,7 +53,7 @@
                 text-align: center;
                 justify-content: center;
                 padding: 16px 0;
-                font-size: 1.2em;
+                font-size: 0.5em;
             }
             .nav-link i {
             font-size: 0.2em;
@@ -348,9 +348,9 @@
             padding: 7px;
             }
             .calendar-day {
-            min-height: 1fr;
+            min-height: 50px;
             padding: 3px;
-            font-size: 0.2fr;
+            font-size: 0.1fr;
             }
             .calendar-date {
             font-size: 0.9em;
@@ -545,8 +545,11 @@
         function createMatchDiv(match, dayDiv, matchesContainer, dateStr){
             const matchDiv = document.createElement('div');
             matchDiv.className = 'calendar-match';
+            // Parse the first two characters of team IDs
+            const teamAFirst2 = match.teamAID ? match.teamAID.substring(0, 2) : '';
+            const teamBFirst2 = match.teamBID ? match.teamBID.substring(0, 2) : '';
             if (window.innerWidth <= 600) {
-                matchDiv.textContent = `${match.teamAID} vs ${match.teamBID}`;
+                matchDiv.textContent = `${teamAFirst2} vs ${teamBFirst2}`;
             } else {
                 matchDiv.textContent = `${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
             }
@@ -573,7 +576,7 @@
             // Add lock icon if match is locked
             if (match.locked) {
                 if (window.innerWidth <= 600) {
-                    matchDiv.textContent = `${match.teamAID} vs ${match.teamBID}`;
+                    matchDiv.textContent = `${teamAFirst2} vs ${teamBFirst2}`;
                 } else {
                     matchDiv.textContent = `🔒${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
                     matchDiv.draggable = false; // Disable dragging
