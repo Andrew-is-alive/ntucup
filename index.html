@@ -45,7 +45,7 @@
         @media (max-width: 600px) {
             .navigation {
             flex-direction: row;
-            gap: 10px;
+            gap: 5px;
             }
             .nav-link {
             width: 30%;
@@ -54,7 +54,7 @@
             font-size: 0.8em;
             }
             .nav-link i {
-            font-size: 0.5em;
+            font-size: 0.2em;
             }
         }
 
@@ -231,7 +231,7 @@
 
         @media (max-width: 768px) {
             .popup {
-                width: 95%;
+                width: 80%;
                 padding: 20px;
             }
         }
@@ -339,7 +339,7 @@
             .calendar-grid,
             #calendar-days {
             grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
+            gap: 1px;
             }
             .weekday-header {
             font-size: 0.95fr;
@@ -348,7 +348,7 @@
             .calendar-day {
             min-height: 70px;
             padding: 3px;
-            font-size: 0.2em;
+            font-size: 0.1em;
             }
             .calendar-date {
             font-size: 0.9em;
@@ -437,7 +437,7 @@
     <div class="calendar-container">
         <div class="calendar-header">
             <button id="prev-month" class="action-btn">Previous Month</button>
-            <h2 id="current-month"></h2>
+            <h3 id="current-month"></h3>
             <button id="next-month" class="action-btn">Next Month</button>
         </div>
         <div class="calendar-grid">
@@ -570,8 +570,12 @@
             matchDiv.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
             // Add lock icon if match is locked
             if (match.locked) {
-                matchDiv.textContent = `🔒${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
-                matchDiv.draggable = false; // Disable dragging
+                if (window.innerWidth <= 600) {
+                    matchDiv.textContent = `${match.teamAID} vs ${match.teamBID}`;
+                } else {
+                    matchDiv.textContent = `🔒${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
+                    matchDiv.draggable = false; // Disable dragging
+                }    
             }
             matchesContainer.appendChild(matchDiv);
             // Show the popup
