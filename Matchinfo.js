@@ -49,7 +49,6 @@ function showMatchinfo(matchDiv, match){
         // **popup**
         // Close the popup by clicking outside the popup
         document.getElementById("popup-overlay").addEventListener("click", () => {
-            document.getElementById('save-match').click();
             document.getElementById("popup-overlay").style.display = 'none';
             document.getElementById("popup").style.display = 'none';
         })
