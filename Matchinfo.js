@@ -2,6 +2,9 @@ function showMatchinfo(matchDiv, match){
     matchDiv.addEventListener("click", () => {
         document.getElementById("popup-overlay").style.display = 'block';
         document.getElementById("popup").style.display = 'block';
+        // Add fade effect to header
+        const header = document.getElementById("sticky-header");
+        if (header) header.classList.add("popup-fade");
         document.getElementById('popup-content').innerHTML = `
             <h3 class="popup-title">${match.teamAID} vs ${match.teamBID}</h3>
             <div class="match-container">
@@ -53,7 +56,10 @@ function showMatchinfo(matchDiv, match){
         document.getElementById("popup-overlay").addEventListener("click", () => {
             document.getElementById("popup-overlay").style.display = 'none';
             document.getElementById("popup").style.display = 'none';
-        })
+            // Remove fade effect from header
+            const header = document.getElementById("sticky-header");
+            if (header) header.classList.remove("popup-fade");
+        });
 
         
         document.querySelectorAll('.score-input').forEach(input => {
