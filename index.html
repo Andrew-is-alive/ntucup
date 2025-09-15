@@ -44,17 +44,17 @@
 
         @media (max-width: 600px) {
             .navigation {
-            flex-direction: column;
+            flex-direction: row;
             gap: 10px;
             }
             .nav-link {
-            width: 100%;
+            width: 30%;
             justify-content: center;
             padding: 16px 0;
-            font-size: 1.1em;
+            font-size: 0.6em;
             }
             .nav-link i {
-            font-size: 1.4em;
+            font-size: 0.5em;
             }
         }
 
@@ -333,7 +333,7 @@
         /* Phone/Small screen styles */
         @media (max-width: 600px) {
             .calendar-header {
-            flex-direction: column;
+            flex-direction: row;
             gap: 10px;
             }
             .calendar-grid,
@@ -543,7 +543,11 @@
         function createMatchDiv(match, dayDiv, matchesContainer, dateStr){
             const matchDiv = document.createElement('div');
             matchDiv.className = 'calendar-match';
-            matchDiv.textContent = `${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
+            if (window.innerWidth <= 600) {
+                matchDiv.textContent = `${match.teamAID} vs ${match.teamBID}`;
+            } else {
+                matchDiv.textContent = `${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
+            }
             matchDiv.style.background = match.status ? '#63d67e' : (match.set1[0] !== 0 && match.set1[1] !== 0) ? '#CCCCFF': '';
             if (match.locked === undefined) {
                 match.locked = false; // Initialize if undefined
