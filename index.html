@@ -46,7 +46,7 @@
             .navigation {
                 flex-direction: row;
                 flex-wrap: nowrap;
-                width: 100%;
+                width: 90%;
             }
             .nav-link {
                 text-align: center;
@@ -54,7 +54,7 @@
                 font-size: 0.6em;
             }
             .nav-link i {
-            font-size: 0.8em;
+                font-size: 0.8em;
             }
         }
 
@@ -547,7 +547,7 @@
             const teamAFirst2 = match.teamAID ? match.teamAID.substring(0, 2) : '';
             const teamBFirst2 = match.teamBID ? match.teamBID.substring(0, 2) : '';
             if (window.innerWidth <= 600) {
-                matchDiv.textContent = `${teamAFirst2} vs ${teamBFirst2}`;
+                matchDiv.textContent = `${teamAFirst2} ${teamBFirst2}`;
             } else {
                 matchDiv.textContent = `${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
             }
@@ -574,7 +574,7 @@
             // Add lock icon if match is locked
             if (match.locked) {
                 if (window.innerWidth <= 600) {
-                    matchDiv.textContent = `${teamAFirst2} vs ${teamBFirst2}`;
+                    matchDiv.textContent = `${teamAFirst2} ${teamBFirst2}`;
                 } else {
                     matchDiv.textContent = `🔒${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
                     matchDiv.draggable = false; // Disable dragging
