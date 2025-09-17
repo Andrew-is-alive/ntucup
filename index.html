@@ -390,6 +390,10 @@
                 <i class="fas fa-user-group"></i>
                 <span class="nav-text">Newbie Teams</span>
             </a>
+            <button class="action-btn" style="margin-left:auto;" id="export-btn">
+            <i class="fas fa-database"></i>
+            Data Backup
+        </button>
         </div>
     </header>
     <!-- Popup structure -->
@@ -587,6 +591,22 @@
                 });
             }
         }
+        document.getElementById('export-btn').addEventListener('click', function() {
+            const data = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                data[key] = localStorage.getItem(key);
+            }
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ntu-cup-backup.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
     </script>
 </body>
 </html>
