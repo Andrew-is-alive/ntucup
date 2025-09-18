@@ -225,6 +225,7 @@ function matchSetsWonLoss(game, teamID) {
 
 function ratioWonLoss(setsWon, setsLost) {
     //console.log('W/L', setsWon, setsLost);
+    if (setsWon === 0 && setsLost === 0) return 0;
     if (setsLost === 0) return 100;
     return (setsWon)/(setsLost);
 }
@@ -267,7 +268,7 @@ function calculatePreliminaryScore() {
         team.preliminaryScore = 0;
 
         Object.values(matches).forEach(match => {
-            if (match.preliminary === true){
+            if ( match.status === true && match.preliminary === true){
                 const matchResult = matchSetsWonLoss(match, team.teamID); // Fixed function call
                 const scoreResult = matchScoreWonLoss(match, team.teamID);
 
@@ -280,7 +281,7 @@ function calculatePreliminaryScore() {
         });
         //console.log(team.teamID, 'gamesWon', gamesWon, setsTotalResult, scoreTotalResult, scoreTotalResult[0]/scoreTotalResult[1]);
         team.preliminaryScore = (gamesWon * 100000000 + ratioWonLoss(setsTotalResult[0], setsTotalResult[1]) * 10000 + ratioWonLoss(scoreTotalResult[0], scoreTotalResult[1]));
-        // console.log(`Final preliminary score for ${team.teamID}: ${team.preliminaryScore}`);
+        //console.log(`Final preliminary score for ${team.teamID}: ${team.preliminaryScore}`);
     });
 
     saveTeams(teams);
@@ -322,7 +323,7 @@ function calculateAvailableDays(unavailableDays) {
 }
 
 // Add this new function to calculate intersection of available days
-function calculateMatchAvailableDays(teamA, teamB, boolNewbie) {
+function calculateMatchAvailableDays(teamA, teamB, boolNewbie = false) {
     const teams = boolNewbie ? fetchNewbieTeams() : fetchTeams();
     // Check if both teams exist and have availableDays
     if (!teams[teamA] || !teams[teamB]) {
@@ -346,8 +347,7 @@ function calculateMatchAvailableDays(teamA, teamB, boolNewbie) {
     return Object.values(teamADays).filter(day => Object.values(teamBDays).includes(day));
 }
 // save Matches sub functions
-function recalculateOfficialStats() {
-    const matches = fetchMatches();
+function recalculateOfficialStats(matches) {
     const officialStats = {};
     
     // Count officials from all matches
@@ -362,6 +362,12 @@ function recalculateOfficialStats() {
     const allOfficialStats = fetchOfficialStats()
     // Save updated stats
     // Update count for each official while preserving availableDays if already set
+    // Remove officials from allOfficialStats that are not in officialStats
+    for (let official in allOfficialStats) {
+        if (!officialStats.hasOwnProperty(official)) {
+            delete allOfficialStats[official];
+        }
+    }
     for (let official in officialStats) {
         if (allOfficialStats.hasOwnProperty(official)) {
             allOfficialStats[official].count = officialStats[official].count;
@@ -415,7 +421,7 @@ function updateMatchWinner(match){
     return match;
 }
 // save Matches main function
-function saveMatches(matches, Newbie = false){
+function saveMatches(matches){
     const teams = fetchTeams();
     let updated = false
     do {
@@ -431,7 +437,7 @@ function saveMatches(matches, Newbie = false){
             const previousTeamAID = matches[index].teamAID;
             const previousTeamBID = matches[index].teamBID;
             match = updateMatchWinner(match);
-            match.availableDays = calculateMatchAvailableDays(match.teamAID, match.teamBID, Newbie);
+            match.availableDays = calculateMatchAvailableDays(match.teamAID, match.teamBID, match.newbie);
             // update brackets
             if (matches[index].status) {
                 // Handle next match updates
@@ -619,9 +625,10 @@ function saveMatches(matches, Newbie = false){
         
         
         if (JSON.stringify(refMatches) !== JSON.stringify(matches)) updated = true;
+        recalculateOfficialStats(matches);
         const matchesJSON = JSON.stringify(matches);
         localStorage.setItem("matches", matchesJSON);
-        recalculateOfficialStats();
+        
     } while (updated === true);
 }
 

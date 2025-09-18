@@ -184,7 +184,10 @@
     </div>
 
     <script>
-        calculatePreliminaryScore();
+        const now = new Date();
+        const keyword = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}-${String(now.getHours()).padStart(2,'0')}`; // YYYY-MM-DD-HH (local time)
+        // Load initial data from backup file
+        readFile(keyword);
 
         let teams = fetchNewbieTeams();
         let matches = fetchMatches();
@@ -274,6 +277,24 @@
         document.getElementById('header-title').addEventListener('click', () => {
             window.location.href = 'index.html'; // Redirect to index.html
         });
+
+        function readFile(keyword){
+            if (localStorage.getItem('initialized') !== JSON.stringify(keyword)) {
+                localStorage.setItem('initialized', JSON.stringify(keyword));
+                fetch('LocalStorageBackup/ntu-cup-backup.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        for (const key in data) {
+                            if (key === 'initialized') continue; // Skip the initialized key
+                            localStorage.setItem(key, data[key]);
+                        }
+                        location.reload();
+                    })
+                    .catch(error => {
+                        alert('Failed to import data: ' + error);
+                });
+            }
+        }
     </script>
 </body>
 </html>
