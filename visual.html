@@ -328,7 +328,7 @@
     <script src = 'Matchinfo.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <header id="sticky-header" class="sticky-header">
-        <h2>NTU Cup System</h2>
+        <h2 id="header-title" style="cursor: pointer;">NTU Cup System</h2>
         <div class="navigation">
             <a href="visual.html" class="nav-link">
                 <i class="fas fa-chart-bar"></i>
@@ -338,10 +338,10 @@
                 <i class="fas fa-user-group"></i>
                 <span class="nav-text">NTUCup Teams</span>
             </a>
-            <!-- <a href="teamProfiles_Newbie.html" class="nav-link">
+            <!--<a href="teamProfiles_Newbie.html" class="nav-link">
                 <i class="fas fa-user-group"></i>
                 <span class="nav-text">Newbie Teams</span>
-            </a> -->
+            </a>-->
         </div>
     </header>
     <div class="topbar">
@@ -506,7 +506,9 @@
 
         function readFile(keyword){
             if (localStorage.getItem('initialized') !== JSON.stringify(keyword)) {
+                setTimeout(() => {}, 200);
                 localStorage.setItem('initialized', JSON.stringify(keyword));
+                setTimeout(() => {}, 200);
                 fetch('LocalStorageBackup/ntu-cup-backup.json')
                     .then(response => response.json())
                     .then(data => {
@@ -514,11 +516,11 @@
                             if (key === 'initialized') continue; // Skip the 'initialized' key
                             localStorage.setItem(key, data[key]);
                         }
+                        setTimeout(() => {}, 200);
                         location.reload();
                     })
-                    .catch(error => {
-                        alert('Failed to import data: ' + error);
-                });
+                    .catch(error => console.error('Error loading backup file:', error)
+                );
             }
         }
     </script>

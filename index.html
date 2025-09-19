@@ -586,9 +586,8 @@
                         setTimeout(() => {}, 200);
                         location.reload();
                     })
-                    .catch(error => {
-                        alert('Failed to import data: ' + error);
-                });
+                    .catch(error => console.error('Error loading backup file:', error)
+                );
             }
         }
     </script>
