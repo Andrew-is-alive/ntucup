@@ -204,10 +204,10 @@
                 // Create the row for this team. Team ID cell is now editable.
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td contenteditable="true">${teamID}</td>
-                    <td contenteditable="true">${team.availableDays}</td>
-                    <td contenteditable="true">${team.availableNights}</td>
-                    <td contenteditable="true">${team.teamName || "N/A"}</td>
+                    <td>${teamID}</td>
+                    <td>${team.availableDays}</td>
+                    <td>${team.availableNights}</td>
+                    <td>${team.teamName || "N/A"}</td>
                 `;
                 tableBody.appendChild(row);
             });
