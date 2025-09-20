@@ -163,7 +163,7 @@
                 <th>Preliminary Rank</th>
                 <th>Preliminary Score</th>
                 <th>Available Days</th>
-                <th class="clickable-header" onclick="openBatchInputModal()">Team Name</th>
+                <th>Team Name</th>
                 <th>Matches</th>
             </tr>
         </thead>
@@ -224,7 +224,7 @@
                     <td style="background-color:${bgColor};">${getTeamRank(team)}</td>
                     <td>${team.preliminaryScore}</td>
                     <td>${team.availableDays}</td>
-                    <td">${team.teamName || "N/A"}</td>
+                    <td>${team.teamName || "N/A"}</td>
                     <td><button class="match-btn" onclick="showMatches('${teamID}')">Matches</button></td>
                 `;
                 tableBody.appendChild(row);
@@ -287,16 +287,6 @@
         function closeModal() {
             document.getElementById("modal-overlay").style.display = "none";
             document.getElementById("match-modal").style.display = "none";
-        }
-
-        function openBatchInputModal() {
-            document.getElementById("batch-input-overlay").style.display = "block";
-            document.getElementById("batch-input-modal").style.display = "block";
-        }
-
-        function closeBatchInputModal() {
-            document.getElementById("batch-input-overlay").style.display = "none";
-            document.getElementById("batch-input-modal").style.display = "none";
         }
 
         function saveBatchInput() {
