@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" id="viewport-meta">
     <link rel="icon" href="volleyball.png" type="image/png">
     <title>Team Profiles</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -195,6 +195,7 @@
         readFile(keyword);
 
         calculatePreliminaryScore();
+        phoneResizeViewport();
 
         let teams = fetchTeams();
         let matches = fetchMatches();
@@ -333,6 +334,17 @@
                 );
             }
         }
+
+        function phoneResizeViewport() {
+            var meta = document.getElementById('viewport-meta');
+            var deviceWidth = Math.max(window.screen.width || 0, window.innerWidth || 0);
+            // treat widths <= 600px as phones; set initial-scale to 0.4 for those
+            if (deviceWidth <= 600) {
+                meta.setAttribute('content', 'width=device-width, initial-scale=0.4, maximum-scale=1.0');
+            }
+        }
+        
+        
 
         document.getElementById('modal-overlay').addEventListener('click', closeModal);
     </script>
