@@ -307,8 +307,9 @@
             font-size: 0.9em;
             }
             .calendar-match {
-            font-size: 7px;
-            padding: 3px;
+            font-size: 8px;
+            padding: 1px;
+            border-radius: 1.5px;
             }
             .action-btn {
             width: 25%;
@@ -405,11 +406,15 @@
 
     <!-- Add Calendar View -->
     <div class="calendar-container">
-        <div class="calendar-header">
-            <button id="prev-month" class="action-btn">Prev Month</button>
-            <h3 id="current-month"></h3>
-            <button id="next-month" class="action-btn">Next Month</button>
-        </div>
+        <header class="calendar-header" role="banner" aria-label="Calendar controls">
+            <button id="prev-month" class="action-btn" aria-label="Previous month">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <h3 id="current-month" class="calendar-title" aria-live="polite"></h3>
+            <button id="next-month" class="action-btn" aria-label="Next month">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </header>
         <div class="calendar-grid">
             <div class="weekday-header">Sun</div>
             <div class="weekday-header">Mon</div>
@@ -525,7 +530,6 @@
                 matchDiv.style.background = '#888888'; // Highlight in dark grey for same team matches
             }else if (window.innerWidth <= 600) {
                 matchDiv.textContent = `${teamAFirst2} ${teamBFirst2}`;
-                matchDiv.style.fontSize = '7px';
             } else {
                 matchDiv.textContent = `${match.group}: ${match.teamAID} vs ${match.teamBID} - ${match.official || 'No Official'}`;
             }

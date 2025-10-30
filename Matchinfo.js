@@ -46,7 +46,6 @@ function showMatchinfo(matchDiv, match){
                     </div>
                 `;
         window.currentMatchDate = match.date;
-        
         // **popup**
         // Close the popup by clicking outside the popup
         document.getElementById("popup-overlay").addEventListener("click", () => {
