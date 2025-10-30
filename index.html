@@ -252,6 +252,7 @@
         }
 
         .calendar-match {
+            text-align: center;
             background: #ccc4ff;
             padding: 5px;
             border-radius: 3px;
@@ -526,7 +527,7 @@
             const teamBFirst2 = match.teamBID ? match.teamBID.substring(0, 2) : '';
             matchDiv.style.background = match.status ? '#90ee90' : (match.set1[0] !== 0 && match.set1[1] !== 0) ? '#CCCCFF': '';
             if (match.teamAID === match.teamBID) {
-                matchDiv.textContent = match.teamAID;
+                matchDiv.textContent = window.innerWidth <= 600 ? match.teamAID.substring(0, 3) : match.teamAID;
                 matchDiv.style.background = '#888888'; // Highlight in dark grey for same team matches
             }else if (window.innerWidth <= 600) {
                 matchDiv.textContent = `${teamAFirst2} ${teamBFirst2}`;
