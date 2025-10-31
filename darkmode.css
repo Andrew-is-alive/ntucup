@@ -1,0 +1,142 @@
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #464646;
+        color: #e0e0e0;
+    }
+    .match-container {
+        background-color: #5a5a5a;
+        border-color: #777;
+        color: #e0e0e0;
+    }
+    .match, .champMatch{
+        background-color: #5a5a5a;
+    }
+    .calendar-day {
+        background-color: #5a5a5a;
+        border-color: #777;
+        color: #e0e0e0;
+    }
+    .calendar-day.other-month {
+        background-color: #3e3e3e;
+        color: #999;
+    }
+    .weekday-header {
+        background-color: #3e3e3e;
+        color: #e0e0e0;
+    }
+    .navigation {
+        background-color: #5a5a5a;
+        color: #e0e0e0;
+    }
+    .sticky-header {
+        background-color: #464646 !important;
+        color: #e0e0e0;
+    }
+    .sticky-header.popup-fade {
+        background: rgba(0, 0, 0, 0.7) !important;
+    }
+    .sticky-header h2 {
+        color: #e0e0e0;
+    }
+    .popup {
+        background: #4a4a4a;
+        color: #e0e0e0;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+    }
+    .popup-title {
+        color: #e0e0e0;
+    }
+    .scrollable-matches {
+        background: #5a5a5a;
+        border-color: #777;
+        color: #e0e0e0;
+    }
+    .match-item {
+        border-bottom-color: #666;
+    }
+    .match-item:hover {
+        background: #666;
+    }
+    .match-item-dated {
+        background: #666;
+        border-bottom-color: #777;
+    }
+    .match-item-dated:hover {
+        background: #555;
+    }
+    .calendar-match {
+        background: #6b5b95;
+        color: #cecece;
+    }
+    .calendar-match:hover {
+        background: #5a4d7a;
+    }
+    .newbie-cup {
+        background: #4a6fa5;
+    }
+    .newbie-cup:hover {
+        background: #3d5a87;
+    }
+    .nav-link {
+        background: #5a5a5a;
+        color: #e0e0e0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .nav-link:hover {
+        background: #666;
+    }
+    .action-btn {
+        background: #5a5a5a;
+        color: #e0e0e0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .calendar-date {
+        color: #ccc;
+    }
+    .match-search {
+        background: #5a5a5a;
+        color: #e0e0e0;
+        border-color: #777;
+    }
+    .search-icon {
+        color: #ccc;
+    }
+    input, textarea {
+        background: #5a5a5a;
+        color: #e0e0e0;
+        border-color: #777;
+    }
+    .modal {
+        background: #4a4a4a;
+        color: #e0e0e0;
+    }
+    table {
+        background: #5a5a5a;
+    }
+    th {
+        background: #3e3e3e;
+        color: #e0e0e0;
+    }
+    td {
+        background: #5a5a5a;
+        color: #e0e0e0;
+        border-color: #777;
+    }
+    button {
+        background: #666;
+        color: #e0e0e0;
+        border-color: #777;
+    }
+    button:hover {
+        background: #777;
+    }
+    .download-link{
+        color: #e0e0e0;
+        background: #666;
+        border-color: #777;
+    }
+    .finished {
+        background: #2E7D32;
+        color: #cecece;
+    }
+}

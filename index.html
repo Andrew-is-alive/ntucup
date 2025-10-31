@@ -318,7 +318,7 @@
             padding: 8px 4px;
             font-size: 12px;
             }
-            
+
         }
 
         /* second popup */
@@ -373,11 +373,16 @@
             opacity: 0.5;
             transition: opacity 0.3s ease;
         }
+        .finished {
+            background: #90ee90;
+            color: black;
+        }
     </style>
 
     <!-- Add Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="darkmode.css">
 </head>
 <body>
     <script src = 'dataStorage.js'></script>
@@ -525,7 +530,16 @@
             // Parse the first two characters of team IDs
             const teamAFirst2 = match.teamAID ? match.teamAID.substring(0, 2) : '';
             const teamBFirst2 = match.teamBID ? match.teamBID.substring(0, 2) : '';
-            matchDiv.style.background = match.status ? '#90ee90' : (match.set1[0] !== 0 && match.set1[1] !== 0) ? '#CCCCFF': '';
+            const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (match.status) {
+                matchDiv.classList.add('finished');
+            } else if (match.set1 && match.set1[0] !== 0 && match.set1[1] !== 0) {
+                matchDiv.style.background = '#CCCCFF';
+                matchDiv.style.color = '';
+            } else {
+                matchDiv.style.background = '';
+                matchDiv.style.color = '';
+            }
             if (match.teamAID === match.teamBID) {
                 matchDiv.textContent = window.innerWidth <= 600 ? match.teamAID.substring(0, 3) : match.teamAID;
                 matchDiv.style.background = '#888888'; // Highlight in dark grey for same team matches
