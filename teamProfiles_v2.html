@@ -133,6 +133,9 @@
             background-color: lightblue;
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
+        .finish-preliminary {
+            background : rgb(48, 185, 48);
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
@@ -218,14 +221,17 @@
                 currentGroup = team.preliminaryGroup;
 
                 // Determine the background color for the rank cell
-                const bgColor = isPreliminaryMatchesFinished(teamID) ? 'lightgreen' : '';
+                if (isPreliminaryMatchesFinished(teamID)) {
+                    console.log(`Preliminary matches finished for team ${teamID}`);
+                }
+                const className = isPreliminaryMatchesFinished(teamID) ? 'finish-preliminary' : '';
 
                 // Create the row for this team. Team ID cell is now editable.
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${teamID}</td>
                     <td>${team.preliminaryGroup}</td>
-                    <td style="background-color:${bgColor};">${getTeamRank(team)}</td>
+                    <td class="${className}">${getTeamRank(team)}</td>
                     <td>${team.preliminaryScore}</td>
                     <td>${team.availableDays}</td>
                     <td>${team.teamName || "N/A"}</td>

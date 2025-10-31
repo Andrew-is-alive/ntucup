@@ -138,5 +138,7 @@
         background: #666666;
         color: #cecece;
     }
-
+    .finish-preliminary {
+        background: forestgreen;
+    }
 }
