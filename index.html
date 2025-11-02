@@ -235,7 +235,7 @@
 
         .calendar-day.other-month {
             background: #f5f5f5;
-            color: #999;
+            color: #3c3c3c;
         }
 
         .calendar-date {
@@ -252,6 +252,7 @@
         }
 
         .calendar-match {
+            text-align: center;
             background: #ccc4ff;
             padding: 5px;
             border-radius: 3px;
@@ -307,15 +308,17 @@
             font-size: 0.9em;
             }
             .calendar-match {
-            font-size: 0.95fr;
-            padding: 4px;
+            font-size: 8px;
+            padding: 1px;
+            border-radius: 1.5px;
             }
             .action-btn {
-            width: 20%;
+            width: 25%;
             justify-content: center;
-            padding: 7px 0;
-            font-size: 0.2fr;
+            padding: 8px 4px;
+            font-size: 12px;
             }
+
         }
 
         /* second popup */
@@ -370,11 +373,16 @@
             opacity: 0.5;
             transition: opacity 0.3s ease;
         }
+        .finished {
+            background: #888888;
+            color: black;
+        }
     </style>
 
     <!-- Add Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="darkmode.css">
 </head>
 <body>
     <script src = 'dataStorage.js'></script>
@@ -404,11 +412,15 @@
 
     <!-- Add Calendar View -->
     <div class="calendar-container">
-        <div class="calendar-header">
-            <button id="prev-month" class="action-btn">Previous Month</button>
-            <h3 id="current-month"></h3>
-            <button id="next-month" class="action-btn">Next Month</button>
-        </div>
+        <header class="calendar-header" role="banner" aria-label="Calendar controls">
+            <button id="prev-month" class="action-btn" aria-label="Previous month">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <h3 id="current-month" class="calendar-title" aria-live="polite"></h3>
+            <button id="next-month" class="action-btn" aria-label="Next month">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </header>
         <div class="calendar-grid">
             <div class="weekday-header">Sun</div>
             <div class="weekday-header">Mon</div>
@@ -518,9 +530,18 @@
             // Parse the first two characters of team IDs
             const teamAFirst2 = match.teamAID ? match.teamAID.substring(0, 2) : '';
             const teamBFirst2 = match.teamBID ? match.teamBID.substring(0, 2) : '';
-            matchDiv.style.background = match.status ? '#90ee90' : (match.set1[0] !== 0 && match.set1[1] !== 0) ? '#CCCCFF': '';
+            const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (match.status) {
+                matchDiv.classList.add('finished');
+            } else if (match.set1 && match.set1[0] !== 0 && match.set1[1] !== 0) {
+                matchDiv.style.background = '#CCCCFF';
+                matchDiv.style.color = '';
+            } else {
+                matchDiv.style.background = '';
+                matchDiv.style.color = '';
+            }
             if (match.teamAID === match.teamBID) {
-                matchDiv.textContent = match.teamAID;
+                matchDiv.textContent = window.innerWidth <= 600 ? match.teamAID.substring(0, 3) : match.teamAID;
                 matchDiv.style.background = '#888888'; // Highlight in dark grey for same team matches
             }else if (window.innerWidth <= 600) {
                 matchDiv.textContent = `${teamAFirst2} ${teamBFirst2}`;

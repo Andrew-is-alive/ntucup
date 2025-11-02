@@ -6,51 +6,46 @@ function showMatchinfo(matchDiv, match){
         const header = document.getElementById("sticky-header");
         if (header) header.classList.add("popup-fade");
         document.getElementById('popup-content').innerHTML = `
-            <h3 class="popup-title">${match.teamAID} vs ${match.teamBID}</h3>
-            <div class="match-container">
-                <div style="display: flex; justify-content: space-between; margin: 0 10px;">
-                    <label class="group-label" style="font-weight: bold;">Group: ${match.group}</label>
-                    <label class="group-label" style="font-weight: bold;">Date: ${match.date}</label>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-                    <div class="set-container">
-                        <label>Set 1:</label>
-                        <input type="text" maxlength="2" class="score-input" data-set="set1" data-team="0" value="${match.set1[0] || ''}">
-                        <span>:</span>
-                        <input type="text" maxlength="2" class="score-input" data-set="set1" data-team="1" value="${match.set1[1] || ''}">
-                    </div>
-
-                    <div class="set-container">
-                        <label>Set 2:</label>
-                        <input type="text" maxlength="2" class="score-input" data-set="set2" data-team="0" value="${match.set2[0] || ''}">
-                        <span>:</span>
-                        <input type="text" maxlength="2" class="score-input" data-set="set2" data-team="1" value="${match.set2[1] || ''}">
-                    </div>
-
-                    <div class="set-container">
-                        <label>Set 3:</label>
-                        <input type="text" maxlength="2" class="score-input" data-set="set3" data-team="0" value="${match.set3[0] || ''}">
-                        <span>:</span>
-                        <input type="text" maxlength="2" class="score-input" data-set="set3" data-team="1" value="${match.set3[1] || ''}">
-                    </div>
-                    <div class="date-official-container">
-                        <label>Official: </label>
-                        <div class="official-dropdown">
-                            <input type="text" class="official-search" value="${match.official || ''}" data-field="official" placeholder="Search official...">
-                            <div class="official-list"></div>
+                    <button id="close-popup" class="close-popup-button" style="position: absolute; top: 8px; right: 8px; font-size: 24px; background: transparent; border: none; cursor: pointer;">&times;</button>
+                    <h3 class="popup-title">${match.teamAID} vs ${match.teamBID}</h3>
+                    <div class="match-container">
+                        <div style="display: flex; justify-content: space-between; margin: 0 10px;">
+                            <label class="group-label" style="font-weight: bold;">Group: ${match.group}</label>
+                            <label class="group-label" style="font-weight: bold;">Date: ${match.date}</label>
                         </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                            <div class="set-container">
+                                <label>Set 1:</label>
+                                <input type="text" maxlength="2" class="score-input" data-set="set1" data-team="0" value="${match.set1[0] || ''}">
+                                <span>:</span>
+                                <input type="text" maxlength="2" class="score-input" data-set="set1" data-team="1" value="${match.set1[1] || ''}">
+                            </div>
+
+                            <div class="set-container">
+                                <label>Set 2:</label>
+                                <input type="text" maxlength="2" class="score-input" data-set="set2" data-team="0" value="${match.set2[0] || ''}">
+                                <span>:</span>
+                                <input type="text" maxlength="2" class="score-input" data-set="set2" data-team="1" value="${match.set2[1] || ''}">
+                            </div>
+
+                            <div class="set-container">
+                                <label>Set 3:</label>
+                                <input type="text" maxlength="2" class="score-input" data-set="set3" data-team="0" value="${match.set3[0] || ''}">
+                                <span>:</span>
+                                <input type="text" maxlength="2" class="score-input" data-set="set3" data-team="1" value="${match.set3[1] || ''}">
+                            </div>
+                            <div class="date-official-container">
+                                <label>Official: </label>
+                                <div class="official-dropdown">
+                                    <input type="text" class="official-search" value="${match.official || ''}" data-field="official" placeholder="Search official...">
+                                    <div class="official-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
-                </div>
-                
-            </div>
-        `;
+                `;
         window.currentMatchDate = match.date;
-        
-        if(match.locked !== undefined){
-            if (match.locked == true){
-                document.getElementById('delete-match').style.display = 'none';
-            }
-        }
         // **popup**
         // Close the popup by clicking outside the popup
         document.getElementById("popup-overlay").addEventListener("click", () => {
@@ -61,6 +56,13 @@ function showMatchinfo(matchDiv, match){
             if (header) header.classList.remove("popup-fade");
         });
 
+        document.getElementById("close-popup").addEventListener("click", () => {
+            document.getElementById("popup-overlay").style.display = 'none';
+            document.getElementById("popup").style.display = 'none';
+            // Remove fade effect from header
+            const header = document.getElementById("sticky-header");
+            if (header) header.classList.remove("popup-fade");
+        });
         
         document.querySelectorAll('.score-input').forEach(input => {
             input.addEventListener('input', function(e) {
