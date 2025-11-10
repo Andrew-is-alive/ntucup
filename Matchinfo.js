@@ -8,6 +8,7 @@ function showMatchinfo(matchDiv, match){
         document.getElementById('popup-content').innerHTML = `
                     <button id="close-popup" class="close-popup-button" style="position: absolute; top: 8px; right: 8px; font-size: 24px; background: transparent; border: none; cursor: pointer;">&times;</button>
                     <h3 class="popup-title">${match.teamAID} vs ${match.teamBID}</h3>
+                    <h3 class="popup-title">${match.status ? `${match.winner}贏` : ""}</h3>
                     <div class="match-container">
                         <div style="display: flex; justify-content: space-between; margin: 0 10px;">
                             <label class="group-label" style="font-weight: bold;">Group: ${match.group}</label>
