@@ -163,8 +163,8 @@
 
         .match-container {
             display: flex;
+            flex-direction: column;
             flex-wrap: wrap;
-            align-items: center;
             gap: 10px;
             padding: 10px;
             border: 1px solid #ddd;
@@ -307,7 +307,16 @@
         .line-color{
             background: black;
         }
+        .official-search {
+            min-width: 150px;
+            flex: 1;
+            padding: 4px 5px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
     </style>
+    <link rel="stylesheet" href="popup.css">
     <link rel="stylesheet" href="darkmode.css">
 </head>
 <body>

@@ -8,8 +8,8 @@ function showMatchinfo(matchDiv, match){
         document.getElementById('popup-content').innerHTML = `
                     <button id="close-popup" class="close-popup-button" style="position: absolute; top: 8px; right: 8px; font-size: 24px; background: transparent; border: none; cursor: pointer;">&times;</button>
                     <h3 class="popup-title">${match.teamAID} vs ${match.teamBID}</h3>
-                    <h3 class="popup-title">${match.status ? `${match.winner}贏` : ""}</h3>
                     <div class="match-container">
+                        <h3 class="popup-title">${match.status ? `${match.winner}贏` : ""}</h3>
                         <div style="display: flex; justify-content: space-between; margin: 0 10px;">
                             <label class="group-label" style="font-weight: bold;">Group: ${match.group}</label>
                             <label class="group-label" style="font-weight: bold;">Date: ${match.date}</label>
@@ -20,9 +20,6 @@ function showMatchinfo(matchDiv, match){
                                 <input type="text" maxlength="2" class="score-input" data-set="set1" data-team="0" value="${match.set1[0] || ''}">
                                 <span>:</span>
                                 <input type="text" maxlength="2" class="score-input" data-set="set1" data-team="1" value="${match.set1[1] || ''}">
-                            </div>
-
-                            <div class="set-container">
                                 <label>Set 2:</label>
                                 <input type="text" maxlength="2" class="score-input" data-set="set2" data-team="0" value="${match.set2[0] || ''}">
                                 <span>:</span>
@@ -34,8 +31,6 @@ function showMatchinfo(matchDiv, match){
                                 <input type="text" maxlength="2" class="score-input" data-set="set3" data-team="0" value="${match.set3[0] || ''}">
                                 <span>:</span>
                                 <input type="text" maxlength="2" class="score-input" data-set="set3" data-team="1" value="${match.set3[1] || ''}">
-                            </div>
-                            <div class="date-official-container">
                                 <label>Official: </label>
                                 <div class="official-dropdown">
                                     <input type="text" class="official-search" value="${match.official || ''}" data-field="official" placeholder="Search official...">
