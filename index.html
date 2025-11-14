@@ -287,6 +287,11 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        .action-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
 
         /* Phone/Small screen styles */
         @media (max-width: 600px) {
@@ -411,9 +416,7 @@
     </header>
     <!-- Popup structure -->
     <div class="popup-overlay hidden" id="popup-overlay"></div>
-    <div class="popup hidden" id="popup">
-        <div class="popup-content" id="popup-content"></div>
-    </div>
+    <div class="popup hidden" id="popup"></div>
 
     <!-- Add Calendar View -->
     <div class="calendar-container">

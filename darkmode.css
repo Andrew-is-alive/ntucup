@@ -93,6 +93,9 @@
         color: #e0e0e0;
         box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
+    .action-btn:hover {
+        background: #3a3a3a;
+    }
     .calendar-date {
         color: #ccc;
     }

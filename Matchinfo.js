@@ -1,15 +1,16 @@
 function showMatchinfo(matchDiv, match){
+    if (match.teamAID === match.teamBID) return; // Do not show popup for same team matches
     matchDiv.addEventListener("click", () => {
         document.getElementById("popup-overlay").style.display = 'block';
         document.getElementById("popup").style.display = 'block';
         // Add fade effect to header
         const header = document.getElementById("sticky-header");
         if (header) header.classList.add("popup-fade");
-        document.getElementById('popup-content').innerHTML = `
+        document.getElementById('popup').innerHTML = `
                     <button id="close-popup" class="close-popup-button" style="position: absolute; top: 8px; right: 8px; font-size: 24px; background: transparent; border: none; cursor: pointer;">&times;</button>
                     <h3 class="popup-title">${match.teamAID} vs ${match.teamBID}</h3>
                     <div class="match-container">
-                        <h3 class="popup-title">${match.status ? `${match.winner}贏` : ""}</h3>
+                        <h3 class="popup-title">${match.status && match.teamAID !== match.teamBID? `${match.winner}贏` : ""}</h3>
                         <div style="display: flex; justify-content: space-between; margin: 0 10px;">
                             <label class="group-label" style="font-weight: bold;">Group: ${match.group}</label>
                             <label class="group-label" style="font-weight: bold;">Date: ${match.date}</label>
