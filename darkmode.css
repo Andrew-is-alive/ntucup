@@ -93,11 +93,12 @@
         color: #e0e0e0;
         box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
-    .action-btn:hover {
-        background: #3a3a3a;
-    }
     .calendar-date {
         color: #ccc;
+    }
+    .calendar-date:hover{
+        color: #ccc;
+        background: #4a4a4a;
     }
     .match-search {
         background: #2d2d2d;
@@ -203,6 +204,7 @@
     }
     .popup-content {
         background: #242424;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.9);
     }
     .scrolling-list {
         background: #2d2d2d;
@@ -276,6 +278,16 @@
     .finished {
         background: #666666;
         color: #cecece;
+    }
+    .finished:hover {
+        background: #555555;
+        color: #cecece;
+    }
+    .unfinished {
+        background: #ff9d00;
+    }
+    .unfinished:hover {
+        background: #e08900;
     }
     /* End calendar match box colors */
 }
