@@ -389,6 +389,10 @@
             background: #888888;
             color: black;
         }
+        .unfinished {
+            background: #f39c12;
+            color: black;
+        }
     </style>
 
     <!-- Add Font Awesome for icons -->
@@ -545,9 +549,9 @@
             if (match.status) {
                 matchDiv.classList.add('finished');
             } else if (match.set1 && match.set1[0] !== 0 && match.set1[1] !== 0) {
-                matchDiv.style.background = '#ff9d00';
-                matchDiv.style.color = '';
-            } 
+                matchDiv.classList.remove('finished');
+                matchDiv.classList.add('unfinished');
+            }
             // textContent based on conditions
             if (match.teamAID === match.teamBID) {
                 matchDiv.textContent = window.innerWidth <= 600 ? match.teamAID.substring(0, 3) : match.teamAID;
