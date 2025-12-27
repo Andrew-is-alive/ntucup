@@ -6,6 +6,7 @@
     <link rel="icon" href="volleyball.png" type="image/png">
     <title>Tournament Bracket</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="popup.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -155,55 +156,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
-        /* Basic styles for the popup */
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 1000;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .popup-title {
-            color: #2c3e50;
-            margin: 0 0 25px 0;
-            font-size: 1.5em;
-            text-align: center;
-        }
-
-        .match-container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            background: #f9f9f9;
-        }
-
-        .scrollable-matches {
-            max-height: calc(8 * 40px); /* Assuming each match row is 40px tall */
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .popup-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
 
         .btn-primary, .btn-secondary {
             flex: 1;
@@ -362,9 +314,7 @@
     <div id="bracketContainer" class="bracket-container"></div>
     <!-- Popup structure -->
     <div class="popup-overlay hidden" id="popup-overlay"></div>
-    <div class="popup hidden" id="popup">
-        <div class="popup-content" id="popup-content"></div>
-    </div>
+    <div class="popup hidden" id="popup"></div>
 
     <script>
         document.getElementById('header-title').addEventListener('click', () => {

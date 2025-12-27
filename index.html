@@ -12,29 +12,6 @@
             padding: 20px;
             background-color: #f4f4f9;
         }
-        /* Basic styles for the popup */
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 1000;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .popup-title {
-            font-size: 1.5em;
-            text-align: center;
-        }
-        .popup-subtitle {
-            font-size: 0.8em;
-            text-align: center;
-        }
 
         .match-container {
             display: flex;
@@ -81,132 +58,6 @@
             background: #818181;
         }
 
-        .popup-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .btn-primary, .btn-secondary {
-            flex: 1;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .btn-secondary{
-            background: red;
-            color: white;
-        }
-
-        .group-label, .team-label {
-            flex: 1 1 120px; /* Grow and shrink, min width 120px */
-            text-align: center;
-        }
-
-        .set-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .set-container input {
-            flex: 1 1 40px;
-            max-width: 60px;
-        }
-
-        .date-official-container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .official-search {
-            min-width: 150px;
-            flex: 1;
-            padding: 4px 5px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        .delete-match {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background-color: #cf4d4d;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        /* Make the layout adjust for smaller screens */
-        @media (max-width: 768px) {
-            .match-container {
-                align-items: stretch;
-            }
-
-            .group-label, .team-label, .set-container, .date-official-container {
-                width: 100%;
-            }
-
-            .set-container {
-                justify-content: center;
-            }
-
-            .delete-match {
-                align-self: center;
-                width: 100%;
-            }
-        }
-
-        .btn-primary:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .btn-secondary:hover {
-            background: rgb(222, 1, 1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .popup {
-                width: 80%;
-                padding: 20px;
-            }
-        }
-
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-        }
-        
         /* Calendar Styles */
         .calendar-container {
             margin-top: 20px;
@@ -330,29 +181,6 @@
             padding: 8px 4px;
             font-size: 12px;
             }
-
-        }
-
-        /* second popup */
-        .search-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .match-search {
-            padding: 8px 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 10px;
-            color: #888;
-            cursor: pointer;
         }
 
         /* Make it more responsive */
@@ -360,15 +188,6 @@
             .action-container {
                 flex-direction: column;
                 align-items: stretch;
-            }
-
-            .search-container {
-                width: 100%;
-                margin-top: 10px;
-            }
-
-            .match-search {
-                width: 100%;
             }
         }
         .newbie-cup{
@@ -380,10 +199,6 @@
         }
         .newbie-cup:hover {
             background: #7fd0fa;
-        }
-        .popup-fade {
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
         }
         .finished {
             background: #888888;
