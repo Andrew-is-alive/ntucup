@@ -445,8 +445,20 @@
             <div class="weekday-header">Sat</div>
         </div>
         <div id="calendar-days"></div>
+        <p>Last updated: <span id="last-updated"></span></p>
     </div>
-
+    <script>
+        const raw = localStorage.getItem('initialized');
+        let display = 'Never';
+        if (raw) {
+            try {
+                display = JSON.parse(raw);
+            } catch (e) {
+                display = raw;
+            }
+        }
+        document.getElementById('last-updated').textContent = display;
+    </script>
     <script>
         const now = new Date();
         const keyword = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}-${String(now.getHours()).padStart(2,'0')}-${String(now.getMinutes()).padStart(2,'0')}`; // YYYY-MM-DD-HH-mm (local time)
