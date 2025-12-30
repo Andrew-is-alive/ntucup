@@ -76,8 +76,7 @@
 
 /* Footer Styles */
 .site-footer {
-    background: #2c3e50;
-    color: white;
+    background: #f4f4f9;
     padding: 40px 20px 20px;
     margin-top: 40px;
 }
@@ -108,7 +107,6 @@
     height: 60px; /* Adjust based on your logo's aspect ratio */
     width: auto;
     object-fit: contain;
-    background: white; /* Optional: if logo needs white background */
     padding: 5px;
     border-radius: 4px;
 }
