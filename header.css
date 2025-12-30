@@ -73,3 +73,61 @@
         display: none;
     }
 }
+
+/* Footer Styles */
+.site-footer {
+    background: #2c3e50;
+    color: white;
+    padding: 40px 20px 20px;
+    margin-top: 40px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-info h3 {
+    margin: 0 0 15px 0;
+    color: #ecf0f1;
+}
+
+.footer-info p {
+    margin: 5px 0;
+    color: #bdc3c7;
+}
+
+.footer-logo img {
+    height: 60px; /* Adjust based on your logo's aspect ratio */
+    width: auto;
+    object-fit: contain;
+    background: white; /* Optional: if logo needs white background */
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    color: #95a5a6;
+    font-size: 0.9em;
+}
+
+@media (max-width: 600px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-logo {
+        order: -1; /* Puts logo on top on mobile if desired */
+        margin-bottom: 15px;
+    }
+}

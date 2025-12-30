@@ -286,4 +286,22 @@
         background: #e08900;
     }
     /* End calendar match box colors */
+
+    .site-footer {
+        background: #1a1a1a;
+        border-top: 1px solid #333;
+    }
+    
+    .footer-info h3 {
+        color: #e0e0e0;
+    }
+    
+    .footer-info p {
+        color: #aaa;
+    }
+    
+    .footer-logo img {
+        background: transparent; /* Or keep white if logo is not transparent */
+        filter: brightness(0.9);
+    }
 }
