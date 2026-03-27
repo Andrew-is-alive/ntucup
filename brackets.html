@@ -10,9 +10,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            padding: 20px 0;
             margin: 0px;
             background-color: #f4f4f9;
+            width: 100%;
         }
         h1 {
             text-align: center;
@@ -26,6 +27,7 @@
             /* use block formatting context so internal fixed/absolute elements behave consistently */
             display: block;
             position: relative;
+            width: 200%;
         }
         /* Popups and overlays must still cover the viewport; make them paint relative to the viewport */
         /* We reset position for those inside the scaled wrapper so they behave like fixed elements */
@@ -85,10 +87,12 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
         .bracket-container {
-            padding: 40px;
+            padding: 20px 10px;
             display: flex;
             gap: 80px;
             align-items: flex-start; /* ← aligns rounds to the top */
+            width: 100%;
+            overflow-x: auto;
         }
         .tier {
             display: flex;
@@ -294,6 +298,7 @@
             margin-bottom: 20px;
             flex-wrap: wrap;
             border-bottom: 2px solid #ddd;
+            
         }
 
         .tab-button {
