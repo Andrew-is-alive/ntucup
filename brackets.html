@@ -256,12 +256,17 @@
                 display: block;
                 position: relative;
             }
-            #tab-container {
-                transform: scale(0.2);
-                transform-origin: 0 0;
-            }
             .tab-container {
-                width: 500%;
+                gap: 5px;
+                flex-wrap: wrap;
+            }
+            .tab-button {
+                padding: 8px 10px;
+                font-size: 14px;
+                flex: 0 1 auto;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
 
