@@ -10,10 +10,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px 0;
+            padding: 20px;
             margin: 0px;
             background-color: #f4f4f9;
-            width: 100%;
         }
         h1 {
             text-align: center;
@@ -87,12 +86,10 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
         .bracket-container {
-            padding: 20px 10px;
+            padding: 40px;
             display: flex;
             gap: 80px;
             align-items: flex-start; /* ← aligns rounds to the top */
-            width: 100%;
-            overflow-x: auto;
         }
         .tier {
             display: flex;
@@ -298,13 +295,12 @@
             margin-bottom: 20px;
             flex-wrap: wrap;
             border-bottom: 2px solid #ddd;
-            
         }
 
         .tab-button {
             padding: 12px 24px;
             border: none;
-            background: #f0f0f0;
+            background: #ddd;
             cursor: pointer;
             font-size: 32px;
             font-weight: 500;
@@ -315,7 +311,7 @@
         }
 
         .tab-button:hover {
-            background: #e0e0e0;
+            background: #b7b7b7;
         }
 
         .tab-button.active {
@@ -360,6 +356,7 @@
         </a>
     </div>
     <h1>Tournament Bracket</h1>
+    <div id="tabContainer" class=""tab-container"></div>
     <div id="bracketContainer" class="bracket-container"></div>
     <!-- Popup structure -->
     <div class="popup-overlay hidden" id="popup-overlay"></div>
@@ -404,7 +401,7 @@
             );
 
             // Create tab container
-            const tabContainer = document.createElement("div");
+            const tabContainer = document.getElementById("tabContainer");
             tabContainer.classList.add("tab-container");
 
             // Create tab buttons for each tier
@@ -426,7 +423,6 @@
                 tabContainer.appendChild(button);
             });
 
-            container.appendChild(tabContainer);
 
             // Create content for each tier
             activeTiers.forEach((tier, index) => {
