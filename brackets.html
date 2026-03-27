@@ -249,6 +249,29 @@
             .match .champMatch{
                 font-size: 12px;
             }
+            #bracketContainer {
+                transform: scale(0.2);   /* further scale down for smaller screens */
+                transform-origin: 0 0;            /* keep top-left as origin so layout stays predictable */
+                /* use block formatting context so internal fixed/absolute elements behave consistently */
+                display: block;
+                position: relative;
+            }
+            .tab-button {
+                padding: 10px 12px;
+                border: none;
+                background: #ddd;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 500;
+                border-radius: 8px 8px 0 0;
+                transition: all 0.3s ease;
+                margin-bottom: -2px;
+                flex: 1 1 auto;
+                min-width: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
         }
 
         .btn-primary:hover {
