@@ -14,6 +14,10 @@
             margin: 0px;
             background-color: #f4f4f9;
         }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
         /* Scale wrapper: everything inside #bracketContainer will be scaled down 1/6 (≈0.1666667) */
         /* width:600% compensates so the scaled content still fills the viewport horizontally */
         #bracketContainer {
@@ -22,6 +26,7 @@
             /* use block formatting context so internal fixed/absolute elements behave consistently */
             display: block;
             position: relative;
+            width: 200%;
         }
         /* Popups and overlays must still cover the viewport; make them paint relative to the viewport */
         /* We reset position for those inside the scaled wrapper so they behave like fixed elements */
@@ -245,11 +250,26 @@
                 font-size: 12px;
             }
             #bracketContainer {
-                transform: scale(0.2);     /* 0.6 */
+                transform: scale(0.2);   /* further scale down for smaller screens */
                 transform-origin: 0 0;            /* keep top-left as origin so layout stays predictable */
                 /* use block formatting context so internal fixed/absolute elements behave consistently */
                 display: block;
                 position: relative;
+            }
+            .tab-container {
+                gap: 5px;
+                flex-wrap: wrap;
+            }
+            .tab-button {
+                padding: 8px 10px;
+                font-size: 14px;
+                flex: 0 1 auto;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            #tab-button {
+                transform: scale(0.2);
             }
         }
 
@@ -282,6 +302,46 @@
         .line-color{
             background: black;
         }
+
+        /* Tab styles */
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            font-size: 32px;
+            font-weight: 500;
+            color: #333;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+            margin-bottom: -2px;
+        }
+
+        .tab-button:hover {
+            background: #b7b7b7;
+        }
+
+        .tab-button.active {
+            background: #42bed3;
+            color: white;
+            border-bottom: 3px solid #31acc2;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
        
     </style>
     <link rel="stylesheet" href="header.css">
@@ -294,11 +354,11 @@
     <header id="sticky-header" class="sticky-header">
         <h2 id="header-title" style="cursor: pointer;">NTU Cup System</h2>
         <div class="navigation">
-            <a href="visual_beta1.html" class="nav-link">
+            <a href="brackets.html" class="nav-link">
                 <i class="fas fa-chart-bar"></i>
                 <span class="nav-text">Brackets</span>
             </a>
-            <a href="teamProfiles_v2.html" class="nav-link">
+            <a href="teamProfiles.html" class="nav-link">
                 <i class="fas fa-user-group"></i>
                 <span class="nav-text">NTUCup Teams</span>
             </a>
@@ -311,6 +371,7 @@
         </a>
     </div>
     <h1>Tournament Bracket</h1>
+    <div id="tabContainer" class=""tab-container"></div>
     <div id="bracketContainer" class="bracket-container"></div>
     <!-- Popup structure -->
     <div class="popup-overlay hidden" id="popup-overlay"></div>
@@ -347,118 +408,124 @@
 
             const container = document.getElementById("bracketContainer");
             container.innerHTML = ""; // Clear previous content
-            // Tier 1
-            // Create tier containers in numeric order to enforce ordering:
-            const tier1Div = document.createElement("div");
-            tier1Div.classList.add("tier");
-  
-            const tier2Div = document.createElement("div");
-            tier2Div.classList.add("tier");
-  
-            const tier3Div = document.createElement("div");
-            tier3Div.classList.add("tier");
-  
-            const tier4Div = document.createElement("div");
-            tier4Div.classList.add("tier");
-  
-            const tier5Div = document.createElement("div");
-            tier5Div.classList.add("tier");
+            
+            // Get all unique tier prefixes
+            const tierOrder = ['NewbieCup', 'Tier1', 'Tier2', 'Tier3', 'Tier4'];
+            const activeTiers = tierOrder.filter(tierPrefix => 
+                Object.keys(bracketsData).some(key => key.startsWith(tierPrefix))
+            );
 
-            function createBracket(tierName, bracket) {
-                const title = document.createElement("h2");
-                title.textContent = tierName;
+            // Create tab container
+            const tabContainer = document.getElementById("tabContainer");
+            tabContainer.classList.add("tab-container");
 
-                if (tierName.substring(0, 5) === 'Tier1') {
-                    tierDiv = tier1Div;
-                } else if (tierName.substring(0, 5) === 'Tier2') {
-                    tierDiv = tier2Div;
-                } else if (tierName.substring(0, 5) === 'Tier3') {
-                    tierDiv = tier3Div;
-                } else if (tierName.substring(0, 5) === 'Tier4') {
-                    tierDiv = tier4Div;
-                } else if (tierName.substring(0, 9) === 'NewbieCup') {
-                    tierDiv = tier5Div;
-                } else {
-                    console.error(`Unknown tier name: ${tierName}`);
-                    return;
-                }
-                tierDiv.appendChild(title);
-                const bracketContainer = document.createElement("div");
-                bracketContainer.classList.add("bracket-container");
-                let mar = 40;
-                let top = 0;
-                bracket.roundMatchIds.forEach((round, roundIndex) => {
-                    const roundDiv = document.createElement("div");
-                    roundDiv.classList.add("round");
-                    const roundTitle = document.createElement("h3");
-                    roundTitle.textContent = `Round ${roundIndex + 1}`;
-                    roundDiv.appendChild(roundTitle);
-                    round.forEach((matchId, matchIndex) => {
-                        const match = matches.find(m => m.id == matchId);
-                        const teamAFirst2 = match.teamAID ? match.teamAID.substring(0, 2) : '';
-                        const teamBFirst2 = match.teamBID ? match.teamBID.substring(0, 2) : '';
-                        if (match !== undefined){
-                            const matchDiv = document.createElement("div");
+            // Create tab buttons for each tier
+            activeTiers.forEach((tier, index) => {
+                const button = document.createElement("button");
+                button.classList.add("tab-button");
+                if (index === 0) button.classList.add("active"); // First tab is active by default
+                button.textContent = tier;
+                button.dataset.tier = tier;
+                button.addEventListener("click", function() {
+                    // Remove active class from all buttons and contents
+                    document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+                    document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
                     
-                            if(match.nextMatch !== null){
-                                matchDiv.classList.add("match");
-                                matchDiv.style.marginBottom = `${mar}px`; // Only bottom margin
-                            }else{
-                                matchDiv.classList.add("champMatch")
-                                matchDiv.style.marginBottom = `100px`
-                            }
-                            if (matchIndex === 0) {
-                                matchDiv.style.marginTop = `${top}px`; // Extra top space for first child
-                            }
-                            const date = match.date ?? '';
-                            const status = match.status === false ? "To Be Played" : (match.winner ? `Winner: ${match.winner === match.teamAID ? teamAFirst2 : teamBFirst2}` : 'To Be Played');
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add("active");
+                    document.getElementById(`tab-${tier}`).classList.add("active");
+                });
+                tabContainer.appendChild(button);
+            });
 
-                            // Build HTML with the winner bolded
-                            const teamAHtml = (match.winner && match.winner === match.teamAID) ? `<strong style="color: #4fa7d1;">${teamAFirst2}</strong>` : teamAFirst2;
-                            const teamBHtml = (match.winner && match.winner === match.teamBID) ? `<strong style="color: #4fa7d1;">${teamBFirst2}</strong>` : teamBFirst2;
-                            const vsHtml = `${teamAHtml} vs ${teamBHtml}`;
-                            if (match.teamAID === match.teamBID && match.teamAID !== null) {
-                                matchDiv.innerHTML = `${teamAFirst2}`;
-                            } else {
-                                matchDiv.innerHTML = vsHtml;
-                            }
-                            showMatchinfo(matchDiv, match);
-                            roundDiv.appendChild(matchDiv);
-                            // create connecting lines
-                            if (matchIndex % 2 === 1 && match.nextMatch !== null) {
-                                const verticalLine = document.createElement("div");
-                                verticalLine.style.position = "absolute";
-                                verticalLine.style.left = 223 + "px";
-                                verticalLine.style.bottom = Height + "px"; 
-                                verticalLine.style.width = "2px";
-                                verticalLine.style.height = `${mar + 2 * Height+ 6}px`;
-                                verticalLine.classList.add("line-color");
-                                matchDiv.appendChild(verticalLine);
-                            }
-                        }
+
+            // Create content for each tier
+            activeTiers.forEach((tier, index) => {
+                const tabContent = document.createElement("div");
+                tabContent.id = `tab-${tier}`;
+                tabContent.classList.add("tab-content");
+                if (index === 0) tabContent.classList.add("active"); // First tab content is active by default
+
+                // Get all brackets for this tier
+                const tiersForThisTier = Object.entries(bracketsData).filter(([key]) => key.startsWith(tier));
+
+                tiersForThisTier.forEach(([tierName, bracket]) => {
+                    const title = document.createElement("h2");
+                    title.textContent = tierName;
+                    tabContent.appendChild(title);
+
+                    const bracketContainer = document.createElement("div");
+                    bracketContainer.classList.add("bracket-container");
+                    let mar = 40;
+                    let top = 0;
+
+                    bracket.roundMatchIds.forEach((round, roundIndex) => {
+                        const roundDiv = document.createElement("div");
+                        roundDiv.classList.add("round");
+                        const roundTitle = document.createElement("h3");
+                        roundTitle.textContent = `Round ${roundIndex + 1}`;
+                        roundDiv.appendChild(roundTitle);
+
+                        round.forEach((matchId, matchIndex) => {
+                            const match = matches.find(m => m.id == matchId);
+                            const teamAFirst2 = match.teamAID ? match.teamAID.substring(0, 2) : '';
+                            const teamBFirst2 = match.teamBID ? match.teamBID.substring(0, 2) : '';
+                            
+                            if (match !== undefined) {
+                                const matchDiv = document.createElement("div");
                         
-                        
+                                if(match.nextMatch !== null){
+                                    matchDiv.classList.add("match");
+                                    matchDiv.style.marginBottom = `${mar}px`;
+                                } else {
+                                    matchDiv.classList.add("champMatch")
+                                    matchDiv.style.marginBottom = `100px`
+                                }
+
+                                if (matchIndex === 0) {
+                                    matchDiv.style.marginTop = `${top}px`;
+                                }
+
+                                const date = match.date ?? '';
+                                const status = match.status === false ? "To Be Played" : (match.winner ? `Winner: ${match.winner === match.teamAID ? teamAFirst2 : teamBFirst2}` : 'To Be Played');
+
+                                const teamAHtml = (match.winner && match.winner === match.teamAID) ? `<strong style="color: #4fa7d1;">${teamAFirst2}</strong>` : teamAFirst2;
+                                const teamBHtml = (match.winner && match.winner === match.teamBID) ? `<strong style="color: #4fa7d1;">${teamBFirst2}</strong>` : teamBFirst2;
+                                const vsHtml = `${teamAHtml} vs ${teamBHtml}`;
+
+                                if (match.teamAID === match.teamBID && match.teamAID !== null) {
+                                    matchDiv.innerHTML = `${teamAFirst2}`;
+                                } else {
+                                    matchDiv.innerHTML = vsHtml;
+                                }
+
+                                showMatchinfo(matchDiv, match);
+                                roundDiv.appendChild(matchDiv);
+
+                                // create connecting lines
+                                if (matchIndex % 2 === 1 && match.nextMatch !== null) {
+                                    const verticalLine = document.createElement("div");
+                                    verticalLine.style.position = "absolute";
+                                    verticalLine.style.left = 223 + "px";
+                                    verticalLine.style.bottom = Height + "px"; 
+                                    verticalLine.style.width = "2px";
+                                    verticalLine.style.height = `${mar + 2 * Height+ 6}px`;
+                                    verticalLine.classList.add("line-color");
+                                    matchDiv.appendChild(verticalLine);
+                                }
+                            }
+                        });
+
+                        mar = mar * 2 + Height * 2 + 3;
+                        top = mar / 2;
+                        bracketContainer.appendChild(roundDiv);
                     });
-                    mar  = mar * 2 + Height * 2 + 3;
-                    top = mar/2;
-                    bracketContainer.appendChild(roundDiv);
+
+                    tabContent.appendChild(bracketContainer);
                 });
 
-
-                tierDiv.appendChild(bracketContainer);
-            }
-
-            Object.entries(bracketsData).forEach(([tier, bracket]) => {
-                createBracket(tier, bracket);
+                container.appendChild(tabContent);
             });
-            // Append the tier containers to the main container in the desired numeric order:
-            container.style.display = "flex";
-            container.style.flexDirection = "column";
-            container.appendChild(tier5Div);
-            container.appendChild(tier2Div);
-            container.appendChild(tier3Div);
-            container.appendChild(tier4Div);
-            container.appendChild(tier1Div);
         }
     </script>
 </body>
