@@ -223,55 +223,6 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        /* Make the layout adjust for smaller screens */
-        @media (max-width: 768px) {
-            .match-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .group-label, .team-label, .set-container, .date-official-container {
-                width: 100%;
-            }
-
-            .set-container {
-                justify-content: center;
-            }
-
-            .delete-match {
-                align-self: center;
-                width: 100%;
-            }
-            .popup {
-                width: 80%;
-                padding: 20px;
-            }
-            .match .champMatch{
-                font-size: 12px;
-            }
-            #bracketContainer {
-                transform: scale(0.2);   /* further scale down for smaller screens */
-                transform-origin: 0 0;            /* keep top-left as origin so layout stays predictable */
-                /* use block formatting context so internal fixed/absolute elements behave consistently */
-                display: block;
-                position: relative;
-            }
-            .tab-container {
-                gap: 5px;
-                flex-wrap: wrap;
-            }
-            .tab-button {
-                padding: 8px 10px;
-                font-size: 14px;
-                flex: 0 1 auto;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            #tab-button {
-                transform: scale(0.2);
-            }
-        }
 
         .btn-primary:hover {
             background: #45a049;
@@ -341,6 +292,56 @@
 
         .tab-content.active {
             display: block;
+        }
+        
+        /* Make the layout adjust for smaller screens */
+        @media (max-width: 768px) {
+            .match-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .group-label, .team-label, .set-container, .date-official-container {
+                width: 100%;
+            }
+
+            .set-container {
+                justify-content: center;
+            }
+
+            .delete-match {
+                align-self: center;
+                width: 100%;
+            }
+            .popup {
+                width: 80%;
+                padding: 20px;
+            }
+            .match .champMatch{
+                font-size: 12px;
+            }
+            #bracketContainer {
+                transform: scale(0.2);   /* further scale down for smaller screens */
+                transform-origin: 0 0;            /* keep top-left as origin so layout stays predictable */
+                /* use block formatting context so internal fixed/absolute elements behave consistently */
+                display: block;
+                position: relative;
+            }
+            .tab-container {
+                gap: 5px;
+                flex-wrap: wrap;
+            }
+            .tab-button {
+                padding: 8px 10px;
+                font-size: 14px;
+                flex: 0 1 auto;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            #tab-button {
+                transform: scale(0.2);
+            }
         }
        
     </style>
