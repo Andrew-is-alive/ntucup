@@ -365,12 +365,6 @@
             </a>
         </div>
     </header>
-    <div class="topbar">
-        <a id="downloadPdfBtn" class="download-link">
-            <i class="fas fa-file-pdf"></i> 
-            <span class="nav-text">Download Bracket as PDF</span>
-        </a>
-    </div>
     <h1>Tournament Bracket</h1>
     <div id="tabContainer" class=""tab-container"></div>
     <div id="bracketContainer" class="bracket-container"></div>
@@ -388,20 +382,6 @@
         const Height = 40;
         document.addEventListener("DOMContentLoaded", () => {
             renderCalendar();
-
-            // PDF download logic for the whole page
-            document.getElementById('downloadPdfBtn').addEventListener('click', function() {
-                // Use the body or a main wrapper for the whole page
-                const element = document.body;
-                const opt = {
-                    margin:       0.2,
-                    filename:     'tournament_fullpage.pdf',
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true },
-                    jsPDF:        { unit: 'in', format: 'a1', orientation: 'portrait' } // A1 for extra large
-                };
-                html2pdf().set(opt).from(element).save();
-            });
         });
         function renderCalendar(){
             const bracketsData = fetchBrackets();
