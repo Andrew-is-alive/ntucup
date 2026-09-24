@@ -214,12 +214,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="darkmode.css">
+    <script>document.documentElement.classList.add('public-data-pending');</script>
+    <style>html.public-data-pending body { visibility: hidden; }</style>
+    <script defer src="runtime-config.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.min.js"></script>
+    <script defer src="public-backend.js"></script>
 </head>
 <body>
     <script src = 'dataStorage.js'></script>
     <script src = 'Matchinfo.js'></script>
     <header id="sticky-header" class="sticky-header">
-        <h2 style="cursor: pointer">NTU Cup System</h2>
+        <h2 style="cursor: pointer">NTU Cup Results</h2>
         <div class="navigation">
             <a href="brackets.html" class="nav-link">
                 <i class="fas fa-chart-bar"></i>
@@ -268,23 +273,9 @@
     <script>fetch('footer.html').then(response => response.text()).then(data => document.getElementById('footer-placeholder').innerHTML = data);</script>
 
     <script>
-        const raw = localStorage.getItem('initialized');
-        let display = 'Never';
-        if (raw) {
-            try {
-                display = JSON.parse(raw);
-            } catch (e) {
-                display = raw;
-            }
-        }
-        document.getElementById('last-updated').textContent = display;
+        document.getElementById('last-updated').textContent = 'Loading live results…';
     </script>
     <script>
-        const now = new Date();
-        const keyword = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}-${String(now.getHours()).padStart(2,'0')}-${String(now.getMinutes()).padStart(2,'0')}`; // YYYY-MM-DD-HH-mm (local time)
-        // Load initial data from backup file
-        readFile(keyword);
-
         let currentDate = new Date();
 
         function renderCalendar() {
@@ -376,8 +367,6 @@
             // Parse the first two characters of team IDs
             const teamAFirst2 = match.teamAID ? match.teamAID.substring(0, 2) : '';
             const teamBFirst2 = match.teamBID ? match.teamBID.substring(0, 2) : '';
-            const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
             if (match.status) {
                 matchDiv.classList.add('finished');
             } else if (match.set1 && match.set1[0] !== 0 && match.set1[1] !== 0) {
@@ -389,38 +378,30 @@
                 matchDiv.textContent = window.innerWidth <= 600 ? match.teamAID.substring(0, 3) : match.teamAID;
                 matchDiv.style.background = '#888888'; // Highlight in dark grey for same team matches
             }else if (window.innerWidth <= 600) {
-                const winnerId = match.winner;
-                let aHtml = teamAFirst2;
-                let bHtml = teamBFirst2;
-                aHtml = `${aHtml}`;
-                bHtml = `${bHtml}`;
-                if (winnerId === match.teamAID) {
-                    aHtml = `<strong>${aHtml}</strong>`;
-                } else if (winnerId === match.teamBID) {
-                    bHtml = `<strong>${bHtml}</strong>`;
-                }
-                matchDiv.innerHTML = `${aHtml} ${bHtml}`;
+                appendTeamLabel(matchDiv, teamAFirst2, match.winner === match.teamAID);
+                matchDiv.append(' ');
+                appendTeamLabel(matchDiv, teamBFirst2, match.winner === match.teamBID);
             } else {
-                const winnerId = match.winner;
-                let aHtml = match.teamAID;
-                let bHtml = match.teamBID;
-                if (winnerId === match.teamAID) {
-                    aHtml = `<strong>${aHtml}</strong>`;
-                } else if (winnerId === match.teamBID) {
-                    bHtml = `<strong>${bHtml}</strong>`;
-                }
-                matchDiv.innerHTML = `${match.group}: ${aHtml} vs ${bHtml} - ${match.official || 'No Official'}`;
+                matchDiv.append(`${match.group || 'Match'}: `);
+                appendTeamLabel(matchDiv, match.teamAID || 'TBD', match.winner === match.teamAID);
+                matchDiv.append(' vs ');
+                appendTeamLabel(matchDiv, match.teamBID || 'TBD', match.winner === match.teamBID);
+                matchDiv.append(` - ${match.official || 'No Official'}`);
             }
-            if (match.locked === undefined) {
-                match.locked = false; // Initialize if undefined
-            }
-            // Long press to lock/unlock the match
-            let longPressTimer;
-            matchDiv.addEventListener('mouseup', () => clearTimeout(longPressTimer));
             matchesContainer.appendChild(matchDiv);
             // Show the popup
             showMatchinfo(matchDiv, match);
             
+        }
+
+        function appendTeamLabel(container, label, isWinner) {
+            if (isWinner) {
+                const strong = document.createElement('strong');
+                strong.textContent = label;
+                container.appendChild(strong);
+            } else {
+                container.append(label);
+            }
         }
 
 
@@ -440,25 +421,6 @@
             renderCalendar();
         });
 
-        function readFile(keyword){
-            if (localStorage.getItem('initialized') !== JSON.stringify(keyword)) {
-                setTimeout(() => {}, 200);
-                localStorage.setItem('initialized', JSON.stringify(keyword));
-                setTimeout(() => {}, 200);
-                fetch('LocalStorageBackup/ntu-cup-backup.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        for (const key in data) {
-                            if (key === 'initialized') continue; // Skip the 'initialized' key
-                            localStorage.setItem(key, data[key]);
-                        }
-                        setTimeout(() => {}, 200);
-                        location.reload();
-                    })
-                    .catch(error => console.error('Error loading backup file:', error)
-                );
-            }
-        }
     </script>
 </body>
 </html>

@@ -140,11 +140,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="darkmode.css">
+    <script>document.documentElement.classList.add('public-data-pending');</script>
+    <style>html.public-data-pending body { visibility: hidden; }</style>
+    <script defer src="runtime-config.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.min.js"></script>
+    <script defer src="public-backend.js"></script>
 </head>
 <body>
     <script src = 'dataStorage.js'></script>
     <header id="sticky-header" class="sticky-header">
-        <h2 id="header-title" style="cursor: pointer;">NTU Cup System</h2>
+        <h2 id="header-title" style="cursor: pointer;">NTU Cup Results</h2>
         <div class="navigation">
             <a href="brackets.html" class="nav-link">
                 <i class="fas fa-chart-bar"></i>
@@ -183,25 +188,11 @@
         <button onclick="closeModal()">Close</button>
     </div>
 
-    <div class="modal-overlay" id="batch-input-overlay" style="display:none;"></div>
-    <div class="modal" id="batch-input-modal" style="display:none;">
-        <h2>Batch Input (TeamID [tab] TeamName)</h2>
-        <textarea id="batch-input-area" rows="8" cols="40"></textarea>
-        <br>
-        <button onclick="saveBatchInput()">Save</button>
-        <button onclick="closeBatchInputModal()">Cancel</button>
-    </div>
-
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
     <script>fetch('footer.html').then(response => response.text()).then(data => document.getElementById('footer-placeholder').innerHTML = data);</script>
 
     <script>
-        const now = new Date();
-        const keyword = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}-${String(now.getHours()).padStart(2,'0')}-${String(now.getMinutes()).padStart(2,'0')}`; // YYYY-MM-DD-HH-mm (local time)
-        // Load initial data from backup file
-        readFile(keyword);
-
         calculatePreliminaryScore();
         phoneResizeViewport();
 
@@ -218,7 +209,10 @@
                 // Insert blank row on group change
                 if (team.preliminaryGroup !== currentGroup && currentGroup !== '') {
                     const blankRow = document.createElement("tr");
-                    blankRow.innerHTML = `<td colspan="8" style="height:10px;"></td>`;
+                    const blankCell = document.createElement("td");
+                    blankCell.colSpan = 7;
+                    blankCell.style.height = "10px";
+                    blankRow.appendChild(blankCell);
                     tableBody.appendChild(blankRow);
                 }
 
@@ -230,52 +224,38 @@
                 }
                 const className = isPreliminaryMatchesFinished(teamID) ? 'finish-preliminary' : '';
 
-                // Create the row for this team. Team ID cell is now editable.
                 const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${teamID}</td>
-                    <td>${team.preliminaryGroup}</td>
-                    <td class="${className}">${getTeamRank(team)}</td>
-                    <td>${team.preliminaryScore}</td>
-                    <td>${team.availableDays}</td>
-                    <td>${team.teamName || "N/A"}</td>
-                    <td><button class="match-btn" onclick="showMatches('${teamID}')">Matches</button></td>
-                `;
+                const values = [
+                    teamID,
+                    team.preliminaryGroup,
+                    getTeamRank(team),
+                    team.preliminaryScore,
+                    Array.isArray(team.availableDays) ? team.availableDays.join(', ') : team.availableDays,
+                    team.teamName || "N/A"
+                ];
+                values.forEach((value, index) => {
+                    const cell = document.createElement("td");
+                    cell.textContent = value ?? '';
+                    if (index === 2 && className) cell.className = className;
+                    row.appendChild(cell);
+                });
+                const actionCell = document.createElement("td");
+                const matchesButton = document.createElement("button");
+                matchesButton.type = "button";
+                matchesButton.className = "match-btn";
+                matchesButton.textContent = "Matches";
+                matchesButton.addEventListener("click", () => showMatches(teamID));
+                actionCell.appendChild(matchesButton);
+                row.appendChild(actionCell);
                 tableBody.appendChild(row);
             });
         }   
-
-        function saveChanges(oldTeamID, button) {
-            const row = button.parentElement.parentElement;
-            // Get the new team ID from the first cell
-            const newTeamID = row.cells[0].innerText.trim();
-            
-            // If team ID was changed, update it
-            if (newTeamID !== oldTeamID) {
-                updateTeamID(oldTeamID, newTeamID);
-            }
-            
-            // Refresh the teams data after the potential update
-            const teams = fetchTeams();
-            // Use the new team ID as key (could be same as old if unchanged)
-            const currentID = newTeamID;
-            
-            // Save availableDays and teamName in cells 4 and 5 (0-indexed)
-            teams[currentID].availableDays = row.cells[4].innerText.split(',').map(Number);
-            teams[currentID].teamName = row.cells[5].innerText.trim();
-            
-            saveTeams(teams);
-            alert("Changes saved for " + currentID);
-            // Refresh the table
-            window.location.reload();
-            populateTable();
-        }
 
         function showMatches(teamID) {
             const team = Object.values(teams).filter(t => t.teamID === teamID)
             const teamMatches = matches.filter(m => (m.teamAID !== m.teamBID) && (m.teamAID === teamID || m.teamBID === teamID) && !m.newbie);
             const matchContent = document.getElementById("match-content");
-            matchContent.innerHTML = "";
+            matchContent.replaceChildren();
             console.log(team);
             // Group matches by match.group, using "Unknown Group" if not present
             const groups = {};
@@ -289,9 +269,13 @@
 
             // Display matches grouped by match.group with a title for each group
             Object.keys(groups).forEach(groupName => {
-                matchContent.innerHTML += `<h3>${groupName}</h3>`;
+                const heading = document.createElement("h3");
+                heading.textContent = groupName;
+                matchContent.appendChild(heading);
                 groups[groupName].forEach(match => {
-                    matchContent.innerHTML += `<p>${match.teamAID} vs ${match.teamBID} - Score: ${match.set1.join(':')} | ${match.set2.join(':')} | ${match.set3.join(':')}</p>`;
+                    const result = document.createElement("p");
+                    result.textContent = `${match.teamAID} vs ${match.teamBID} - Score: ${match.set1.join(':')} | ${match.set2.join(':')} | ${match.set3.join(':')}`;
+                    matchContent.appendChild(result);
                 });
             });
             document.getElementById("modal-overlay").style.display = "block";
@@ -308,43 +292,10 @@
             if (header) header.classList.remove("popup-fade");
         }
 
-        function saveBatchInput() {
-            const input = document.getElementById("batch-input-area").value.trim().split('\n');
-            input.forEach(line => {
-                const [id, name] = line.split(/\s+/); // split by whitespace
-                if (teams[id]) {
-                    teams[id].teamName = name;
-                }
-            });
-            saveTeams(teams);
-            closeBatchInputModal();
-            populateTable();
-        }
-
         window.onload = populateTable;
         document.getElementById('header-title').addEventListener('click', () => {
             window.location.href = 'index.html'; // Redirect to index.html
         });
-
-        function readFile(keyword){
-            if (localStorage.getItem('initialized') !== JSON.stringify(keyword)) {
-                setTimeout(() => {}, 200);
-                localStorage.setItem('initialized', JSON.stringify(keyword));
-                setTimeout(() => {}, 200);
-                fetch('LocalStorageBackup/ntu-cup-backup.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        for (const key in data) {
-                            if (key === 'initialized') continue; // Skip the 'initialized' key
-                            localStorage.setItem(key, data[key]);
-                        }
-                        setTimeout(() => {}, 200);
-                        location.reload();
-                    })
-                    .catch(error => console.error('Error loading backup file:', error)
-                );
-            }
-        }
 
         function phoneResizeViewport() {
             var meta = document.getElementById('viewport-meta');

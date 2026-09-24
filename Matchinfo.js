@@ -1,93 +1,67 @@
-function showMatchinfo(matchDiv, match){
-    if (match.teamAID === match.teamBID) return; // Do not show popup for same team matches
+function showMatchinfo(matchDiv, match) {
+    if (match.teamAID === match.teamBID) return;
+
     matchDiv.addEventListener("click", () => {
-        document.getElementById("popup-overlay").style.display = 'block';
-        document.getElementById("popup").style.display = 'block';
-        // Add fade effect to header
+        const overlay = document.getElementById("popup-overlay");
+        const popup = document.getElementById("popup");
         const header = document.getElementById("sticky-header");
-        if (header) header.classList.add("popup-fade");
-        document.getElementById('popup').innerHTML = `
-                    <button id="close-popup" class="close-popup-button" style="position: absolute; top: 8px; right: 8px; font-size: 24px; background: transparent; border: none; cursor: pointer;">&times;</button>
-                    <h3 class="popup-title">${match.teamAID} vs ${match.teamBID}</h3>
-                    <h6 class="popup-subtitle">${match.group} ${match.date}</h6>
-                    <div class="match-container">
-                        <h3 class="popup-title">${match.status && match.teamAID !== match.teamBID? `${match.winner}贏` : ""}</h3>
-                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-                            <div class="set-container">
-                                <label>Set 1:</label>
-                                <input type="text" maxlength="2" class="score-input" data-set="set1" data-team="0" value="${match.set1[0] || ''}">
-                                <span>:</span>
-                                <input type="text" maxlength="2" class="score-input" data-set="set1" data-team="1" value="${match.set1[1] || ''}">
-                            </div>
-                            <div class="set-container">
-                                <label>Set 2:</label>
-                                <input type="text" maxlength="2" class="score-input" data-set="set2" data-team="0" value="${match.set2[0] || ''}">
-                                <span>:</span>
-                                <input type="text" maxlength="2" class="score-input" data-set="set2" data-team="1" value="${match.set2[1] || ''}">
-                            </div>
+        if (!overlay || !popup) return;
 
-                            <div class="set-container">
-                                <label>Set 3:</label>
-                                <input type="text" maxlength="2" class="score-input" data-set="set3" data-team="0" value="${match.set3[0] || ''}">
-                                <span>:</span>
-                                <input type="text" maxlength="2" class="score-input" data-set="set3" data-team="1" value="${match.set3[1] || ''}">
-                            </div>
-                            <div class="set-container">
-                                <label>Official: </label>
-                                <div class="official-dropdown">
-                                    <input type="text" class="official-search" value="${match.official || ''}" data-field="official" placeholder="Search official...">
-                                    <div class="official-list"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                `;
-        window.currentMatchDate = match.date;
-        // **popup**
-        // Close the popup by clicking outside the popup
-        document.getElementById("popup-overlay").addEventListener("click", () => {
-            document.getElementById("popup-overlay").style.display = 'none';
-            document.getElementById("popup").style.display = 'none';
-            // Remove fade effect from header
-            const header = document.getElementById("sticky-header");
-            if (header) header.classList.remove("popup-fade");
+        popup.replaceChildren();
+
+        const closeButton = document.createElement("button");
+        closeButton.type = "button";
+        closeButton.id = "close-popup";
+        closeButton.className = "close-popup-button";
+        closeButton.setAttribute("aria-label", "Close match details");
+        closeButton.textContent = "×";
+        closeButton.style.cssText = "position:absolute;top:8px;right:8px;font-size:24px;background:transparent;border:0;cursor:pointer";
+
+        const title = document.createElement("h3");
+        title.className = "popup-title";
+        title.textContent = `${match.teamAID || "TBD"} vs ${match.teamBID || "TBD"}`;
+
+        const subtitle = document.createElement("p");
+        subtitle.className = "popup-subtitle";
+        subtitle.textContent = [match.group, match.date].filter(Boolean).join(" · ");
+
+        const content = document.createElement("div");
+        content.className = "match-container";
+
+        if (match.status && match.winner) {
+            const result = document.createElement("h3");
+            result.className = "popup-title";
+            result.textContent = `Winner: ${match.winner}`;
+            content.appendChild(result);
+        }
+
+        ["set1", "set2", "set3"].forEach((setName, index) => {
+            const scores = Array.isArray(match[setName]) ? match[setName] : [0, 0];
+            const row = document.createElement("div");
+            row.className = "set-container";
+            const label = document.createElement("strong");
+            label.textContent = `Set ${index + 1}:`;
+            const value = document.createElement("span");
+            value.textContent = `${scores[0] || 0} : ${scores[1] || 0}`;
+            row.append(label, value);
+            content.appendChild(row);
         });
 
-        document.getElementById("close-popup").addEventListener("click", () => {
-            document.getElementById("popup-overlay").style.display = 'none';
-            document.getElementById("popup").style.display = 'none';
-            // Remove fade effect from header
-            const header = document.getElementById("sticky-header");
-            if (header) header.classList.remove("popup-fade");
-        });
-        
-        document.querySelectorAll('.score-input').forEach(input => {
-            input.addEventListener('input', function(e) {
-                // Only allow numbers
-                this.value = this.value.replace(/[^0-9]/g, '');
-                
-                // Auto-advance when two digits are entered
-                if (this.value.length === 2) {
-                    const allInputs = Array.from(document.querySelectorAll('.score-input'));
-                    const currentIndex = allInputs.indexOf(this);
-                    if (currentIndex < allInputs.length - 1) {
-                        allInputs[currentIndex + 1].focus();console.log('here');
-                    }
-                }
-            });
+        const official = document.createElement("p");
+        official.textContent = `Official: ${match.official || "Not assigned"}`;
+        content.appendChild(official);
 
-            // Add keyboard navigation
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Backspace' && this.value.length === 0) {
-                    const allInputs = Array.from(document.querySelectorAll('.score-input'));
-                    const currentIndex = allInputs.indexOf(this);
-                    if (currentIndex > 0) {
-                        e.preventDefault();
-                        allInputs[currentIndex - 1].focus();
-                    }
-                }
-            });
-        });
+        popup.append(closeButton, title, subtitle, content);
+        overlay.style.display = "block";
+        popup.style.display = "block";
+        header?.classList.add("popup-fade");
+
+        const close = () => {
+            overlay.style.display = "none";
+            popup.style.display = "none";
+            header?.classList.remove("popup-fade");
+        };
+        overlay.onclick = close;
+        closeButton.onclick = close;
     });
 }
