@@ -265,16 +265,11 @@
             <div class="weekday-header">Sat</div>
         </div>
         <div id="calendar-days"></div>
-        <p>Last updated: <span id="last-updated"></span></p>
     </div>
 
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
     <script>fetch('footer.html').then(response => response.text()).then(data => document.getElementById('footer-placeholder').innerHTML = data);</script>
-
-    <script>
-        document.getElementById('last-updated').textContent = 'Loading live results…';
-    </script>
     <script>
         let currentDate = new Date();
 
